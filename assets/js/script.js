@@ -15,13 +15,19 @@ var taskFormHandler = function() {
     }
     formEl.reset();
     // package up data as an object
-    var taskDataObj = {
-        name: taskNameInput,
-        type: taskTypeInput
-    };
 
-    // send it as an argument to creatTaskEl
-    createTaskEl(taskDataObj);
+    var isEdit = formEl.hasAttribute("data-task-id");
+        if(isEdit) {
+            var taskId = formEl.getAttribute("data-task-id");
+            completeEditTask(taskNameInput,taskTypeInput, taskId);
+        } else {
+            var taskDataObj = {
+                name: taskNameInput,
+                type: taskTypeInput
+            }
+        
+            createTaskEl(taskDataObj);
+        }
 }
 
 var createTaskEl = function(taskDataObj) {
@@ -100,7 +106,7 @@ var taskButtonHandler = function(event) {
 var editTask = function(taskId) {
 
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId +"']");
-    var taskName = taskSelected.querySelector("h3.task-name").textContent;
+    var taskName = taskSelected.querySelector("h3.task-name").textContent ;
     var taskType = taskSelected.querySelector("span.task-type").textContent;
     document.querySelector("input[name='task-name']").value = taskName;
     document.querySelector("select[name='task-type']").value = taskType;
